@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Domain\[Context]\Services;
+
+use App\Domain\[Context]\Entities\[Entity];
+use App\Domain\[Context]\Repositories\[Entity]RepositoryInterface;
+
+/**
+ * Service for [description]
+ */
+class [Entity]Service
+{
+    private $repository;
+
+    public function __construct([Entity]RepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function create[Entity](/* parameters */): [Entity]
+    {
+        $entity = new [Entity](uniqid() /* , other params */);
+        $this->repository->save($entity);
+        return $entity;
+    }
+
+    public function update[Entity]Status(string $id, string $status): void
+    {
+        $entity = $this->repository->find($id);
+        $entity->updateStatus($status);
+        $this->repository->save($entity);
+    }
+}

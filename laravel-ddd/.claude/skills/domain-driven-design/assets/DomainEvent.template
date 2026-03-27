@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Domain\[Context]\Events;
+
+use Ramsey\Uuid\UuidInterface;
+use DateTimeImmutable;
+
+/**
+ * Domain Event: [Name]
+ */
+final readonly class [Name]
+{
+    public function __construct(
+        public UuidInterface $entityId,
+        public DateTimeImmutable $occurredAt
+    ) {}
+
+    public static function now(UuidInterface $entityId): self
+    {
+        return new self($entityId, new DateTimeImmutable());
+    }
+}

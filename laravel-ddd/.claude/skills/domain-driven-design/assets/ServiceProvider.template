@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Infrastructure\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use App\Domain\[Context]\Repositories\[Entity]RepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\Repositories\Eloquent[Entity]Repository;
+
+/**
+ * Service provider for domain bindings
+ */
+class DomainServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        $this->app->bind([Entity]RepositoryInterface::class, Eloquent[Entity]Repository::class);
+    }
+}

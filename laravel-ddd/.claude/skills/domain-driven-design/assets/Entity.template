@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Domain\[Context]\Entities;
+
+/**
+ * Entity representing [description]
+ */
+class [Name]
+{
+    private string $id;
+    private string $status;
+
+    public function __construct(string $id, string $status = 'active')
+    {
+        $this->id = $id;
+        $this->status = $status;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function updateStatus(string $status): void
+    {
+        $this->status = $status;
+    }
+}

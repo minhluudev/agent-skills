@@ -1,0 +1,22 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Domain\{Domain}\Actions;
+
+use App\Domain\{Domain}\DTO\{DTOName}DTO;
+use App\Domain\{Domain}\Repositories\{EntityName}Repository;
+use Exception;
+use Symfony\Component\HttpFoundation\Response;
+
+class {ActionName}Action
+{
+    public function __construct(
+        protected {EntityName}Repository ${entityNameCamel}Repository
+    ) {}
+
+    public function handle({DTOName}DTO ${dtoNameCamel}DTO): mixed
+    {
+        // TODO: implement business logic
+        throw new Exception('Not implemented', Response::HTTP_NOT_IMPLEMENTED);
+    }
+}

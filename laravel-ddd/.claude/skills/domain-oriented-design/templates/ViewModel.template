@@ -1,0 +1,28 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Http\ViewModels\{Domain};
+
+use App\Infrastructures\Models\{EntityName};
+use Illuminate\Support\Collection;
+
+/**
+ * ViewModel — encapsulates all data needed by a View or API response.
+ * Use DI for dependencies to keep it testable.
+ */
+class {Name}ViewModel
+{
+    public function __construct(
+        private ?{EntityName} ${entityNameCamel} = null
+    ) {}
+
+    public function {entityNameCamel}(): {EntityName}
+    {
+        return $this->{entityNameCamel} ?? new {EntityName}();
+    }
+
+    public function relatedData(): Collection
+    {
+        return collect(); // TODO: load related data
+    }
+}

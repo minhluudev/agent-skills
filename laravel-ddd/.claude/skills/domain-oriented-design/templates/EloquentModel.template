@@ -1,0 +1,21 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Infrastructures\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class {EntityName} extends Model
+{
+    protected $table = '{table_name}';
+
+    protected $fillable = [
+        // add fillable fields here
+    ];
+
+    // Uncomment when using a custom QueryBuilder:
+    // public function newEloquentBuilder($query): \App\Domain\{Domain}\QueryBuilders\{EntityName}QueryBuilder
+    // {
+    //     return new \App\Domain\{Domain}\QueryBuilders\{EntityName}QueryBuilder($query);
+    // }
+}

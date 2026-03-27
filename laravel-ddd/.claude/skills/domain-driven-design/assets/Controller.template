@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Interfaces\Http\Controllers;
+
+use App\Application\[Context]\UseCases\[Verb][Entity]UseCase;
+use App\Application\[Context]\DTOs\[Verb][Entity]DTO;
+use App\Interfaces\Http\Requests\[Verb][Entity]Request;
+use App\Interfaces\Http\Resources\[Entity]Resource;
+use Illuminate\Routing\Controller;
+
+/**
+ * Controller for [description]
+ */
+class [Entity]Controller extends Controller
+{
+    public function __construct(
+        private readonly [Verb][Entity]UseCase $useCase
+    ) {}
+
+    public function store([Verb][Entity]Request $request): [Entity]Resource
+    {
+        $dto = new [Verb][Entity]DTO(
+            $request->validated('property1'),
+            $request->validated('property2')
+        );
+
+        $result = ($this->useCase)($dto);
+
+        return new [Entity]Resource($result);
+    }
+}

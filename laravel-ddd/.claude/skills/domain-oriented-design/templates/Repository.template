@@ -1,0 +1,13 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Domain\{Domain}\Repositories;
+
+use Prettus\Repository\Contracts\RepositoryInterface;
+
+interface {EntityName}Repository extends RepositoryInterface
+{
+    // Declare custom business-specific query methods here.
+    // Example:
+    // public function findBySlug(string $slug): ?{EntityName};
+}

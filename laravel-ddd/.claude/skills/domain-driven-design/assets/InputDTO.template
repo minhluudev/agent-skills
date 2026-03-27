@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Application\[Context]\DTOs;
+
+/**
+ * Input DTO for [action description]
+ */
+class [Name]DTO
+{
+    public string $property1;
+    public string $property2;
+
+    public function __construct(string $property1, string $property2)
+    {
+        $this->property1 = $property1;
+        $this->property2 = $property2;
+    }
+}

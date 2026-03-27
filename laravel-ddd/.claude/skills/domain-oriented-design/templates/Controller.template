@@ -1,0 +1,24 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Api\V{N}\{Domain};
+
+use App\Domain\{Domain}\Actions\{ActionName}Action;
+use App\Http\Controllers\Api\Controller;
+use App\Http\Requests\{Domain}\{RequestName}Request;
+use App\Http\Resources\{Domain}\{ResourceName}Resource;
+use Exception;
+use Illuminate\Http\JsonResponse;
+
+class {ControllerName}Controller extends Controller
+{
+    public function handle({RequestName}Request $request, {ActionName}Action $action): JsonResponse
+    {
+        try {
+            $result = $action->handle($request->toDTO());
+            return $this->sendResponse({ResourceName}Resource::make($result));
+        } catch (Exception $e) {
+            return $this->sendError($e->getMessage(), $e->getCode());
+        }
+    }
+}

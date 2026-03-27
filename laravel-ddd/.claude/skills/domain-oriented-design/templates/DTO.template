@@ -1,0 +1,28 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Domain\{Domain}\DTO;
+
+class {DTOName}DTO
+{
+    public function __construct(
+        public readonly string $field1,
+        public readonly string $field2,
+    ) {}
+
+    public static function fromRequest(array $data): self
+    {
+        return new self(
+            field1: $data['field1'],
+            field2: $data['field2'],
+        );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'field1' => $this->field1,
+            'field2' => $this->field2,
+        ];
+    }
+}

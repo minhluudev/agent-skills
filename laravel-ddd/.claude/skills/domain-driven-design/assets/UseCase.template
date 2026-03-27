@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Application\[Context]\UseCases;
+
+use App\Domain\[Context]\Repositories\[Entity]RepositoryInterface;
+use App\Application\[Context]\DTOs\[Verb][Entity]DTO;
+use App\Application\[Context]\DTOs\[Entity]DTO;
+
+/**
+ * Use Case: [Verb] [Entity]
+ */
+class [Verb][Entity]UseCase
+{
+    public function __construct(
+        private readonly [Entity]RepositoryInterface $repository
+    ) {}
+
+    public function __invoke([Verb][Entity]DTO $dto): [Entity]DTO
+    {
+        // 1. Build or load the domain entity/aggregate
+        // 2. Apply business logic
+        // 3. Persist via repository
+        // 4. Return output DTO
+
+        return [Entity]DTO::fromEntity($entity);
+    }
+}

@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Infrastructure\Persistence\Eloquent\Repositories;
+
+use App\Domain\[Context]\Entities\[Entity];
+use App\Domain\[Context]\Repositories\[Entity]RepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\Models\[Entity]Model;
+
+/**
+ * Eloquent implementation of [Entity]RepositoryInterface
+ */
+class Eloquent[Entity]Repository implements [Entity]RepositoryInterface
+{
+    public function save([Entity] $entity): void
+    {
+        [Entity]Model::updateOrCreate(
+            ['id' => $entity->getId()],
+            [
+                'status' => $entity->getStatus(),
+                // Map other entity properties to database columns
+            ]
+        );
+    }
+
+    public function find(string $id): ?[Entity]
+    {
+        $model = [Entity]Model::find($id);
+
+        if (!$model) {
+            return null;
+        }
+
+        return new [Entity](
+            $model->id,
+            $model->status
+            // Map other properties from model to entity
+        );
+    }
+}

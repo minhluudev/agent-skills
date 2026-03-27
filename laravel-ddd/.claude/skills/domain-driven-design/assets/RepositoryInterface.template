@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Domain\[Context]\Repositories;
+
+use App\Domain\[Context]\Entities\[Entity];
+
+/**
+ * Repository interface for [Entity]
+ */
+interface [Entity]RepositoryInterface
+{
+    /**
+     * Save an entity
+     */
+    public function save([Entity] $entity): void;
+
+    /**
+     * Find entity by ID
+     */
+    public function find(string $id): ?[Entity];
+}

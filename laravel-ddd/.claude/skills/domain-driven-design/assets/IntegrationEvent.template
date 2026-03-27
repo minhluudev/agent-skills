@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Infrastructure\Integration\Events;
+
+/**
+ * Integration Event for cross-context communication
+ *
+ * Integration events are simplified, stable contracts for communication between bounded contexts.
+ * They differ from domain events by being more generic and focused on inter-context messaging.
+ */
+class [Context][Entity][Action]IntegrationEvent
+{
+    /**
+     * @param string $entityId The ID of the entity this event is about
+     * @param array $payload Event data payload
+     * @param \DateTimeImmutable $occurredAt When the event occurred
+     */
+    public function __construct(
+        public readonly string $entityId,
+        public readonly array $payload,
+        public readonly \DateTimeImmutable $occurredAt
+    ) {}
+
+    /**
+     * Create integration event from domain event
+     *
+     * @param [Context][Entity][Action] $domainEvent Domain event from the context
+     * @return self
+     */
+    public static function fromDomainEvent([Context][Entity][Action] $domainEvent): self
+    {
+        return new self(
+            entityId: $domainEvent->entityId,
+            payload: $domainEvent->toArray(),
+            occurredAt: new \DateTimeImmutable()
+        );
+    }
+
+    /**
+     * Convert to message format for queue/event bus
+     */
+    public function toMessage(): array
+    {
+        return [
+            'id' => uniqid(),
+            'type' => '[context].[entity].[action]',
+            'entity_id' => $this->entityId,
+            'data' => $this->payload,
+            'occurred_at' => $this->occurredAt->format('Y-m-d H:i:s'),
+        ];
+    }
+
+    /**
+     * Convert to JSON for external systems
+     */
+    public function toJson(): string
+    {
+        return json_encode($this->toMessage());
+    }
+
+    /**
+     * Create from message format
+     */
+    public static function fromMessage(array $message): self
+    {
+        return new self(
+            entityId: $message['entity_id'],
+            payload: $message['data'],
+            occurredAt: new \DateTimeImmutable($message['occurred_at'])
+        );
+    }
+}

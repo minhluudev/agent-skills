@@ -1,0 +1,163 @@
+<?php
+
+namespace App\Infrastructure\Integration\[Context];
+
+use Illuminate\Support\Facades\Http;
+
+/**
+ * Gateway for [Context] bounded context
+ *
+ * Provides access to [Context] context data via REST API.
+ * Part of Anti-Corruption Layer pattern - protects calling context from [Context] implementation details.
+ */
+class [Context]Gateway
+{
+    private string $baseUrl;
+    private int $timeout;
+
+    public function __construct(string $baseUrl, int $timeout = 5)
+    {
+        $this->baseUrl = rtrim($baseUrl, '/');
+        $this->timeout = $timeout;
+    }
+
+    /**
+     * Get single [entity] by ID
+     */
+    public function get[Entity](string $id): ?array
+    {
+        try {
+            $response = Http::timeout($this->timeout)
+                ->get("{$this->baseUrl}/api/[entities]/{$id}");
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            if ($response->status() === 404) {
+                return null;
+            }
+
+            throw new \RuntimeException(
+                "Failed to fetch [entity] {$id}: HTTP {$response->status()}"
+            );
+        } catch (\Exception $e) {
+            // Log error
+            \Log::error("Gateway error fetching [entity] {$id}", [
+                'exception' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
+    }
+
+    /**
+     * Get multiple [entities] by filters
+     */
+    public function list[Entities](array $filters = []): array
+    {
+        try {
+            $response = Http::timeout($this->timeout)
+                ->get("{$this->baseUrl}/api/[entities]", $filters);
+
+            if ($response->successful()) {
+                return $response->json('data', []);
+            }
+
+            throw new \RuntimeException(
+                "Failed to list [entities]: HTTP {$response->status()}"
+            );
+        } catch (\Exception $e) {
+            \Log::error("Gateway error listing [entities]", [
+                'filters' => $filters,
+                'exception' => $e->getMessage(),
+            ]);
+
+            return [];
+        }
+    }
+
+    /**
+     * Get [entities] by IDs (batch fetch)
+     */
+    public function get[Entities](array $ids): array
+    {
+        if (empty($ids)) {
+            return [];
+        }
+
+        try {
+            $response = Http::timeout($this->timeout)
+                ->post("{$this->baseUrl}/api/[entities]/batch", [
+                    'ids' => $ids,
+                ]);
+
+            if ($response->successful()) {
+                return $response->json('data', []);
+            }
+
+            throw new \RuntimeException(
+                "Failed to batch fetch [entities]: HTTP {$response->status()}"
+            );
+        } catch (\Exception $e) {
+            \Log::error("Gateway error batch fetching [entities]", [
+                'ids' => $ids,
+                'exception' => $e->getMessage(),
+            ]);
+
+            return [];
+        }
+    }
+
+    /**
+     * Create [entity] in [Context] context
+     */
+    public function create[Entity](array $data): ?array
+    {
+        try {
+            $response = Http::timeout($this->timeout)
+                ->post("{$this->baseUrl}/api/[entities]", $data);
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            throw new \RuntimeException(
+                "Failed to create [entity]: HTTP {$response->status()}"
+            );
+        } catch (\Exception $e) {
+            \Log::error("Gateway error creating [entity]", [
+                'data' => $data,
+                'exception' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
+    }
+
+    /**
+     * Update [entity] in [Context] context
+     */
+    public function update[Entity](string $id, array $data): ?array
+    {
+        try {
+            $response = Http::timeout($this->timeout)
+                ->put("{$this->baseUrl}/api/[entities]/{$id}", $data);
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            throw new \RuntimeException(
+                "Failed to update [entity] {$id}: HTTP {$response->status()}"
+            );
+        } catch (\Exception $e) {
+            \Log::error("Gateway error updating [entity] {$id}", [
+                'data' => $data,
+                'exception' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
+    }
+}

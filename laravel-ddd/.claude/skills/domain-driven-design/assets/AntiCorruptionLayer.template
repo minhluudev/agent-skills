@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Infrastructure\Integration\[ExternalContext];
+
+use App\Domain\[Context]\Entities\[Entity];
+
+/**
+ * Anti-Corruption Layer Adapter
+ *
+ * Translates between external [ExternalContext] models and internal [Context] domain models.
+ * Protects the [Context] domain from external changes.
+ */
+class [External][Entity]Adapter
+{
+    /**
+     * Convert domain entity to external format
+     */
+    public function toExternal([Entity] $domainEntity): array
+    {
+        return [
+            'external_id' => $domainEntity->getId(),
+            'external_status' => $this->translateStatusToExternal($domainEntity->getStatus()),
+            // Map other domain properties to external format
+            // Add fields as needed
+        ];
+    }
+
+    /**
+     * Convert external data to domain entity
+     */
+    public function toDomain(array $externalData): [Entity]
+    {
+        return new [Entity](
+            $externalData['external_id'],
+            $this->translateStatusToDomain($externalData['external_status'])
+            // Map external properties to domain entity
+            // Add constructor parameters as needed
+        );
+    }
+
+    /**
+     * Batch conversion from domain to external
+     */
+    public function toExternalBatch(array $domainEntities): array
+    {
+        return array_map(
+            fn([Entity] $entity) => $this->toExternal($entity),
+            $domainEntities
+        );
+    }
+
+    /**
+     * Batch conversion from external to domain
+     */
+    public function toDomainBatch(array $externalDataArray): array
+    {
+        return array_map(
+            fn(array $data) => $this->toDomain($data),
+            $externalDataArray
+        );
+    }
+
+    /**
+     * Translate status from domain to external format
+     */
+    private function translateStatusToExternal(string $domainStatus): string
+    {
+        return match ($domainStatus) {
+            'active' => 'ACTIVE',
+            'inactive' => 'INACTIVE',
+            'archived' => 'ARCHIVED',
+            default => 'UNKNOWN',
+        };
+    }
+
+    /**
+     * Translate status from external to domain format
+     */
+    private function translateStatusToDomain(string $externalStatus): string
+    {
+        return match ($externalStatus) {
+            'ACTIVE' => 'active',
+            'INACTIVE' => 'inactive',
+            'ARCHIVED' => 'archived',
+            default => 'active',
+        };
+    }
+}

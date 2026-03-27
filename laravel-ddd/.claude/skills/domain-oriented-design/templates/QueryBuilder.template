@@ -1,0 +1,27 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Domain\{Domain}\QueryBuilders;
+
+use Illuminate\Database\Eloquent\Builder;
+
+/**
+ * Custom Query Builder — alternative to Repository for simpler projects.
+ * Bind to Eloquent Model via newEloquentBuilder() method.
+ *
+ * In your Model ({EntityName}.php):
+ *   public function newEloquentBuilder($query): {EntityName}QueryBuilder
+ *   {
+ *       return new {EntityName}QueryBuilder($query);
+ *   }
+ */
+class {EntityName}QueryBuilder extends Builder
+{
+    public function active(): self
+    {
+        return $this->where('is_active', true);
+    }
+
+    // Add domain-specific query methods here
+    // Usage: {EntityName}::query()->active()->get();
+}

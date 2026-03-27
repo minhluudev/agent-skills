@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Application\[Context]\DTOs;
+
+use App\Domain\[Context]\Entities\[Entity];
+
+/**
+ * Output DTO for [Entity]
+ */
+final readonly class [Entity]DTO
+{
+    public function __construct(
+        public string $id
+        // Add other properties
+    ) {}
+
+    public static function fromEntity([Entity] $entity): self
+    {
+        return new self(
+            id: $entity->getId()->toString()
+            // Map entity properties
+        );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            // Map properties
+        ];
+    }
+}

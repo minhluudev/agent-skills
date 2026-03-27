@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Infrastructure\Persistence\Eloquent\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Eloquent Model for [Entity]
+ */
+class [Entity]Model extends Model
+{
+    protected $table = '[table_name]';
+
+    protected $fillable = [
+        'id',
+        'status',
+        // Add other fillable fields
+    ];
+
+    // For string-based primary keys
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    /**
+     * Define relationships here
+     */
+}
